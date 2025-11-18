@@ -1,0 +1,87 @@
+/* style.css - Premium multi-style portal (luxury pink + anime accents + game UX) */
+:root{
+  --bg1:#fff0fb; --bg2:#ffe6f6; --accent:#ff3cae; --accent2:#ff7bd8;
+  --muted:#7a486b; --glass: rgba(255,255,255,0.6);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Poppins',sans-serif;background:linear-gradient(180deg,#fff0fb,#ffeef8);color:#3b1230;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.preloader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.3));z-index:120}
+.loader{display:flex;flex-direction:column;align-items:center;gap:12px}
+.loading-text{color:#8b3b69;font-weight:600}
+.particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+.app{position:relative;z-index:10;max-width:1100px;margin:18px auto;padding:12px}
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.brand{display:flex;align-items:center;justify-content:space-between;width:100%}
+.brand-left{display:flex;gap:12px;align-items:center}
+.brand-icon{width:48px;height:48px}
+.brand-text .title{font-weight:700;font-size:18px;color:var(--accent)}
+.brand-text .subtitle{font-size:12px;color:var(--muted)}
+.controls-right{display:flex;gap:10px;align-items:center}
+
+/* entry overlay */
+.entry.overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(255,245,253,0.95), rgba(255,240,250,0.8));display:flex;align-items:center;justify-content:center;z-index:150}
+.entry-card{max-width:760px;padding:28px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.85),#fff);box-shadow:0 20px 60px rgba(255,100,170,0.12);border:1px solid rgba(255,160,200,0.12);text-align:center}
+.entry-title{font-family:"Playfair Display",serif;font-size:28px;margin:8px 0;color:#6f1a4b}
+.entry-sub{color:var(--muted);margin-bottom:18px}
+.entry-actions{display:flex;gap:12px;justify-content:center}
+
+/* main layout */
+.panel-main{background:transparent}
+.panel-inner{display:flex;gap:20px}
+.left-col{width:300px;display:flex;flex-direction:column;gap:18px}
+.mascot-photo .photo{width:100%;height:auto;border-radius:12px;box-shadow:0 18px 50px rgba(255,100,180,0.06)}
+.mission-card{background:linear-gradient(180deg,rgba(255,255,255,0.6),#fff);padding:14px;border-radius:12px;border:1px solid rgba(200,150,180,0.06)}
+.mission-label{font-size:12px;color:var(--muted);font-weight:700}
+.mission-text{color:#5a2746;margin:8px 0}
+.badges{display:flex;gap:8px;margin:8px 0}
+.badge{background:rgba(255,120,180,0.06);padding:6px 10px;border-radius:999px;font-weight:600;color:#8a2b5c}
+
+/* right column quiz */
+.right-col{flex:1}
+.quiz-card{background:linear-gradient(180deg,#fff,#fff4fb);padding:18px;border-radius:14px;border:1px solid rgba(255,150,190,0.06);box-shadow:0 8px 30px rgba(100,30,80,0.03)}
+.quiz-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.progress-outer{flex:1;margin-right:14px}
+.progress-bar{height:12px;background:rgba(200,140,170,0.06);border-radius:999px;overflow:hidden;position:relative}
+.progress-bar > span{position:absolute;right:8px;top:-20px;font-size:12px;color:var(--muted)}
+.progress-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+.stage-title{font-weight:700;color:#5a1140;font-size:18px}
+.question-area{min-height:180px;display:flex;align-items:center;justify-content:center}
+.quizItem{width:100%}
+.qText{font-size:18px;color:#4b1138;margin-bottom:12px}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.choice{background:#fff;padding:12px;border-radius:10px;border:1px solid rgba(200,120,170,0.08);cursor:pointer;transition:all .18s;box-shadow:0 6px 18px rgba(200,120,170,0.04)}
+.choice:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(255,60,150,0.08)}
+.choice.selected{outline:3px solid rgba(255,110,180,0.12);box-shadow:0 18px 50px rgba(255,80,160,0.08)}
+
+/* nav */
+.nav-controls{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.btn{border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:white}
+.btn.ghost{background:transparent;border:1px solid rgba(150,90,140,0.08);color:var(--muted)}
+.btn.micro{padding:6px 8px;font-size:13px}
+
+/* small details */
+.hint{font-size:13px;color:var(--muted)}
+.game-footer{display:flex;justify-content:space-between;padding-top:12px;color:var(--muted)}
+
+/* panels */
+.panel{max-width:980px;margin:12px auto;padding:18px;border-radius:12px}
+.hidden{display:none}
+
+/* modal */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);z-index:160}
+.modal-card{background:white;padding:18px;border-radius:12px;max-width:420px;text-align:center}
+
+/* result & certificate */
+.result-inner{padding:12px}
+.cert-inner{padding:12px}
+.cert-actions{display:flex;gap:10px;justify-content:center;margin-top:12px}
+
+/* responsive */
+@media(max-width:920px){
+  .panel-inner{flex-direction:column}
+  .left-col{width:100%}
+  .choices{grid-template-columns:1fr}
+}
