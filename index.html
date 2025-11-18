@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Princess Portal — Shub</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="style.css">
+
+<!-- QR and PDF libs -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+
+</head>
+<body>
+  <!-- subtle loading / preloader -->
+  <div id="preloader" class="preloader">
+    <div class="loader">
+      <svg viewBox="0 0 120 40" class="logo-mark" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#ff7bd8"/><stop offset="1" stop-color="#ff3cae"/></linearGradient></defs>
+        <rect x="6" y="6" width="108" height="28" rx="8" fill="url(#lg)"></rect>
+      </svg>
+      <div class="loading-text">Preparing Princess Portal…</div>
+    </div>
+  </div>
+
+  <!-- Particle canvas for realistic glitter -->
+  <canvas id="particle-canvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- ENTRY OVERLAY (magical door) -->
+  <div id="entry" class="entry overlay">
+    <div class="entry-card">
+      <!-- elegant hero image using inline SVG "photoreal-lite" style -->
+      <div class="hero-art" role="img" aria-hidden="true">
+        <!-- soft rectangular "portal window" -->
+        <svg viewBox="0 0 600 360" class="hero-svg">
+          <defs>
+            <linearGradient id="gradA" x1="0" x2="1"><stop offset="0" stop-color="#fff0fb"/><stop offset="1" stop-color="#ffd6f3"/></linearGradient>
+            <filter id="fGlow"><feGaussianBlur stdDeviation="10" result="b"/><feBlend in="SourceGraphic" in2="b"/></filter>
+          </defs>
+          <rect x="20" y="20" width="560" height="320" rx="20" fill="url(#gradA)" stroke="#ffd1ea" stroke-opacity="0.9" stroke-width="2" />
+          <!-- soft vignette -->
+          <ellipse cx="300" cy="120" rx="180" ry="60" fill="rgba(255,220,235,0.12)"/>
+        </svg>
+      </div>
+
+      <h1 class="entry-title">Princess Portal — For <span class="name">Shub</span></h1>
+      <p class="entry-sub">A refined, pink, slightly-glittery experience — gym-friendly and anime-tinged. Press Enter to begin your Friendship Quest.</p>
+
+      <div class="entry-actions">
+        <button id="enterBtn" class="btn primary">Enter Portal</button>
+        <button id="previewQRbtn" class="btn ghost">View QR (for phone)</button>
+      </div>
+
+      <div class="hint muted">Tips: best experienced on mobile. You can send the QR to open on Shub's phone.</div>
+    </div>
+  </div>
+
+  <!-- MAIN STAGE -->
+  <main id="app" class="app" aria-live="polite">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-left">
+          <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M4 48h56v4H4z" fill="#ffdfe9"/><path d="M8 48l8-24 10 14 10-22 10 14 8-8 -6 26H8z" fill="#ffd0e8"/></svg>
+          <div class="brand-text">
+            <div class="title">Princess Portal</div>
+            <div class="subtitle">Princess Day • For Shub</div>
+          </div>
+        </div>
+        <div class="controls-right">
+          <div class="player">Player: <strong id="playerName">Shub</strong></div>
+          <button id="toggleSfx" class="btn micro ghost">SFX On</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel panel-main" id="panelMain">
+      <div class="panel-inner">
+        <aside class="left-col">
+          <div class="mascot-photo" aria-hidden="true">
+            <!-- photoreal-lite rectangular image placeholder (realistic vibe) -->
+            <svg viewBox="0 0 300 380" class="photo" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="skin" x1="0" x2="1"><stop offset="0" stop-color="#ffeef6"/><stop offset="1" stop-color="#ffd6f3"/></linearGradient></defs>
+              <rect x="8" y="8" width="284" height="364" rx="18" fill="url(#skin)" stroke="#ffd1ea"/>
+            </svg>
+          </div>
+          <div class="mission-card">
+            <div class="mission-label">MISSION</div>
+            <div class="mission-text">Complete the 10 Princess Promises — finish to earn your credential.</div>
+            <div class="badges">
+              <div class="badge">💪 Gym</div><div class="badge">🎴 Anime</div><div class="badge">👑 Princess</div>
+            </div>
+            <div class="cta-group">
+              <button id="resumeBtn" class="btn ghost">Resume</button>
+              <button id="bookletBtn" class="btn micro ghost">Download Booklet</button>
+            </div>
+          </div>
+        </aside>
+
+        <main class="right-col">
+          <div id="quizCard" class="quiz-card">
+            <div class="quiz-head">
+              <div class="progress-outer">
+                <div class="progress-bar" id="progressBar"><span id="progressPct">0%</span></div>
+              </div>
+              <div class="stage-title">Friendship Quest</div>
+            </div>
+
+            <div id="questionArea" class="question-area">
+              <!-- question content inserted by JS -->
+            </div>
+
+            <div id="navControls" class="nav-controls">
+              <button id="prev" class="btn micro ghost">Back</button>
+              <div class="nav-right">
+                <div id="hintBox" class="hint muted">Tip: press the answer you like best</div>
+                <button id="next" class="btn primary">Next</button>
+              </div>
+            </div>
+
+            <div id="gameFooter" class="game-footer">
+              <div class="small-muted">Unlocked: <span id="unlocked">0</span>/3 challenges</div>
+              <div class="gloss">Princess Day • Powered by friendship</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <!-- result / certificate / modal sections -->
+    <section id="resultSection" class="panel hidden">
+      <div class="result-inner">
+        <h2>Royal Outcome</h2>
+        <div id="summary"></div>
+        <div class="result-actions">
+          <button id="revealCert" class="btn primary">Reveal Certificate</button>
+          <button id="retake" class="btn ghost">Retake</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="certSection" class="panel hidden">
+      <div class="cert-inner">
+        <h2>Certificate of Unescapable Friendship</h2>
+        <canvas id="certCanvas" width="1400" height="900" style="max-width:100%;border-radius:8px"></canvas>
+        <div class="cert-actions">
+          <button id="downloadPNG" class="btn primary">Download PNG</button>
+          <button id="downloadPDF" class="btn ghost">Download PDF Booklet</button>
+          <button id="backHome" class="btn micro ghost">Back Home</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="app-footer">Made with refined glitter ✨ & gym-energy — deliver this to Shub with love.</footer>
+  </main>
+
+  <!-- QR Modal -->
+  <div id="qrModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h3>Open Portal on Phone</h3>
+      <div id="qrLarge" class="qr-large"></div>
+      <p class="muted">Scan with phone camera to open the portal there.</p>
+      <div class="modal-actions"><button id="closeQr" class="btn ghost">Close</button></div>
+    </div>
+  </div>
+
+<script src="app.js" defer></script>
+</body>
+</html>
